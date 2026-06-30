@@ -1,0 +1,32 @@
+```yml
+version: '3'
+services:
+  backend:
+    container_name: encuestas-backend
+    build: ./backend
+    ports:
+      - "5000:5000"
+    environment:
+      - DATABASE_URL=mongodb://mongodb:27017/encuestas
+    depends_on:
+      - mongodb
+    restart: always
+
+  frontend:
+    container_name: encuestas-frontend
+    build: ./frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    restart: always
+
+  mongodb:
+    container_name: encuestas-mongodb
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./mongodb/data:/data/db
+    restart: always
+```
